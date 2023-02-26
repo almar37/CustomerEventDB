@@ -1,0 +1,91 @@
+1. to create a new django project type in the command prompt or the terminal window in vscode:
+django-admin startproject storefront
+
+**if you already have an existing project/venv chdir into the target venv and type the same command but add space and dot after the project name:
+django-admin startproject storefront .
+
+this step will create one folder with the project's name and one python file called manage.py
+
+2. to run the server:
+python manage.py runserver
+
+**you will get the IP address along with the port number (8000 by default) if you open it in a browser you'll get a welcome page from django
+
+
+
+3. to create a new app called 'playground':
+python manage.py startapp playground
+
+after creating an app you must added to the setting.py file within the project's folder 'storefront'. under INSTALLED_APPS between qoutations and sqaure bracets:
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'playground'
+]
+
+
+
+4. there will be a view.py file inside the app 'playgound' folder. VIEWS are request handlers, taking a request and returning a response
+
+to create a view follow the following example of an app that response to playground/hello/ in the url 
+
+4.1 inside views.py type the following after the first written line 'from django.shortcuts import render':
+
+from django.http import HttpResponse 
+
+# Create your views here.
+def say_hello(request): # create a function called 'say_hello' inside the views file
+    return HttpResponse('hello world')
+
+4.2 then create a file in the playground folder called urls.py and type the follwoing:
+
+from django.urls import path
+from . import views # imports views from path
+
+# URL Configuration here you enter an array of views in this case you're telling it to go to the views.py file of this app and call the finction 'say_hello'
+urlpatterns = [
+    path('hello/', views.say_hello)
+]
+
+
+4.3 finally go to the urls.py file in the project 'storefront' folder, and find the 'urlpatterns' part of the script and add a new line in the array:
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('playground/', include('playground.urls')) # this is the new line/view 
+]
+
+this tells it that if you get a request with a url that starts with 'playground'/' go to the playground app and look into its url.py file
+in which we've refrenced a function that responses to 'hello/' by call the function 'say_hello' from views
+
+
+
+5. templates are the user interface part of django, here's an example of creating html response to a url request of playground/hello/
+
+5.1 create a folder inside playground called 'templates', in that folder create a file called 'hello.html', inside the html file type the follwing if statement:
+
+{% in name %}
+<h1>Hello {{name}}</h1>
+{% else %}
+<h1>Hello World</h1>
+{% endif %}
+
+# meaning if key name is set call out the name variable, if not call out hello world
+
+5.2 in views add a function called 'say_hello':
+
+def say_hello(request):
+    return render(request, 'hello.html',{'name': 'bader'})
+
+this will call out the hello.html after a series of calls:
+    1. the main urls.py finds the prompt 'playground' in the url request sent with the user, and so it directs it to second urls.py that of playground
+    2. the playground/urls.py finds the prompt 'hello/' in the url request, and so it gives the  response to callout a function called say_hello in views.py
+    3. playground/views.py then gives an html response 'hello.html' where the name keyvriable is 'bader'\
+    4. hello.html takes the name varibale value, attaches it in the <h1></h1> and return it back to the user
+
+
+
+
+

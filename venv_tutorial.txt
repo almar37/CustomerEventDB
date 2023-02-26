@@ -1,0 +1,23 @@
+1. create a project in vscode
+
+2. open command prompt and go to the project dir
+
+3. to create a virtual environment enter the python.exe path followed by -m venv and the name of the virtual environemnt:
+C:\Users\LEVIATHAN\AppData\Local\Programs\Python\Python311\python.exe -m venv sbk
+ 
+**the command ' echo %PATH% ' to get all the paths the console will look in for the program e.g. python
+
+4. to activate the venv chdir to the project folder and run the prompt:
+sbk\Scripts\activate
+
+5. to add a module to the active environment simply type:
+pip install django
+
+**or to make it easier add all the modules requires in a text file then run the command:
+pip install -r requirements-dev.txt
+
+**inside the text file you can choose the specific version required for each module e.g. django==4.1.17
+**or to select the latest version within a specific range of versions.. django>=4.1.17,<5.0
+
+6. to deactivate: 
+sbk\Scripts\deactivate

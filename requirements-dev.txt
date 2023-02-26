@@ -1,0 +1,5 @@
+django
+readsql
+numpy
+pandas
+sys
