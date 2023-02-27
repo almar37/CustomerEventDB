@@ -1,0 +1,118 @@
+https://www.youtube.com/watch?v=0M1z_-RSv3I
+
+1. create an app called users:
+python manage.py startapp users
+
+1.1 create a superuser in terminal:
+manage.py createsuperuser 
+
+then enter a username, email and password
+
+you can bypass the password validation from the setting.py file by hashing out the lines inside AUTH_PASSWORD_VALIDATORS
+
+
+2. in the users app folder create the following directories and files
+    \users\temapltes
+    \users\temapltes\base.login
+
+    \users\temapltes\users
+    \users\temapltes\users\dashboard.html
+
+    \users\temapltes\registration
+    \users\temapltes\registration\login.html
+    \users\temapltes\registration\logout.html (optional)
+
+    \users\urls.py
+
+
+
+3. for the base.html you can use the following html temaplte:
+
+<!--users/temapltes/base.html-->
+
+<h1>Welcome To Storefront Website</h1>
+
+<style>
+    label, input {
+        display: block;
+    }
+    span.helptext{
+        display.none;
+    }
+</style>
+
+{% block content %}
+{% endblock %}
+
+
+
+4. for the dashboard.html you can use the following html temaplte:
+
+<!--users/temapltes/users/dashboard.html-->
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+Hello, {{ user.username|default:'Guest' }}!
+
+<div>
+    {% if user.is_authenticated %}
+        <a href='{% url 'logout' %}'>Logout</a>
+    {% else %}
+        <a href='{% url 'login' %}'>Login</a>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+
+5. for the login.html you can use the following html temaplte:
+
+<!--users/tempalte/registration/login.html-->
+
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>login</h2>
+
+<form method='post'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type='submit' value='login'>
+</form>
+
+<a href='{% url 'dashboard' %}'>Back to dashboard</a>
+{% endblock %}
+
+
+6. in urls.py import path, include and dashboard and add the following two paths in the urlpatterns:
+
+from django.urls import path, include
+from users.views import dashboard
+
+urlpatterns = [
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('dashboard/',dashboard, name='dashboard')
+]
+
+
+
+7. in view.py add the following request processor function:
+
+from django.shortcuts import render
+
+# Create your views here.
+
+def dashboard(request):
+    return render(request, 'users/dashboard.html')
+
+
+8. when the users app is ready, go to main project setting.py and fix the following:
+
+8.1 add 'django.contrib.sessions' in INSTALLED_APPS
+
+8.2 at the end of the setting file add the following two lines to redirect the user to the dashboard after log in/out:
+
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'dashboard'
