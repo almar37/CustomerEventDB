@@ -1,0 +1,56 @@
+{% extends 'baseBooking.html' %}
+
+{% block content %}
+  <h2>Event Management</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Event ID</th>
+        <th>Event Name</th>
+        <th>Date</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Location</th>
+        <th>Capacity</th>
+        <th>Price</th>
+        <th>Operator</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for event in events %}
+        <tr>
+          <td>{{ event.event_id }}</td>
+          <td>{{ event.event_name }}</td>
+          <td>{{ event.date }}</td>
+          <td>{{ event.starttime }}</td>
+          <td>{{ event.endtime }}</td>
+          <td>{{ event.location }}</td>
+          <td>{{ event.capacity }}</td>
+          <td>{{ event.price }}</td>
+          <td>{{ event.operator.user.username }}</td>
+          <td>
+            {% comment %} <a href="{% url 'edit_event' event.event_id %}">Edit</a>
+            <a href="{% url 'delete_event' event.event_id %}">Delete</a> {% endcomment %}
+          
+            <a href="https://www.youtube.com">Edit</a>
+            <a href="https://www.youtube.com">Delete</a>
+
+            {% comment %} <form method="post" action="{% url 'delete_event' event.id %}">
+              {% csrf_token %}
+             <button type="submit">Delete</button> {% endcomment %}
+            </form>  
+
+          
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="10">No events found.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url 'bookings:create_event' %}" class="btn btn-primary">Create Event</a>
+  <a href="{% url 'bookings:index' %}">Close Editor</a>
+  {% endblock %}

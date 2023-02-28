@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Booking and Event Management</title>
+</head>
+<body>
+	<h1>Welcome to the Booking and Event Management Portal</h1>
+	<p>Please choose an option below:</p>
+	<ul>
+		<a href="{% url 'bookings:booking_mgnt' %}">Manage Bookings</a>
+		<a href="{% url 'bookings:event_mgnt' %}">Manage Events</a>
+	</ul>
+</body>
+</html>
+
+{% block content %}
+{% endblock %}
